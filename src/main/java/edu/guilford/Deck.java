@@ -1,24 +1,15 @@
 package edu.guilford;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Deck {
-    private ArrayList<Card> deck = new ArrayList<Card>();
+    private List<Card> deck = new ArrayList<>();
     private Random rand = new Random();
 
-    public Deck() {
-        build();
-    }
-
-    public ArrayList<Card> getDeck() {
-        return deck;
-    }
-    
-    public void clear() {
-        deck.clear();
-    }
-
+    public Deck() { build(); shuffle(); }
     public void build() {
         for (Card.Suit suit : Card.Suit.values()) {
             for (Card.Rank rank : Card.Rank.values()) {
@@ -26,35 +17,6 @@ public class Deck {
             }
         }
     }
-
-    public void shuffle() {
-        ArrayList<Card> tempDeck = new ArrayList<Card>();
-        while (deck.size() > 0) {
-            int loc = rand.nextInt(deck.size());
-            tempDeck.add(deck.get(loc));
-            deck.remove(loc);
-        }
-        deck = tempDeck;
-    }
-
-    public Card pick(int i) {
-        Card picked = deck.remove(i);
-        return picked;
-    }
-
-    public Card deal() {
-        return deck.remove(0);
-    }
-
-    public int size() {
-        return deck.size();
-    }
-
-    public String toString() {
-        String deckString = "";
-        for (Card card : deck) {
-            deckString += card.toString() + "\n";
-        }
-        return deckString;
-    }
+    public void shuffle() { Collections.shuffle(deck, rand); }
+    public Card deal() { return deck.isEmpty() ? null : deck.remove(0); }
 }

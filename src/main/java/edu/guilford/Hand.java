@@ -1,102 +1,18 @@
 package edu.guilford;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Hand {
-    private ArrayList<Card> hand;
+    private List<Card> hand = new ArrayList<>();
 
-    public Hand() {
-        hand = new ArrayList<Card>();
-    }
-
-    public ArrayList<Card> getHand() {
-        return hand;
-    }
-
-    public void addCard(Card card) {
-        hand.add(card);
-    }
-
-    public void removeCard(Card card) {
-        hand.remove(card);
-    }
-
-    public void reset() {
-        hand.clear();
-    }
-
-    public int size() {
-        return hand.size();
-    }
-
-    public Card getCard(int index) {
-        return hand.get(index);
-    }
-
-    // Calculate the value of the hand
+    public void addCard(Card card) { hand.add(card); }
+    public void removeCard(Card card) { hand.remove(card); }
+    public Card getCard(int index) { return hand.get(index); }
     public int getTotalValue() {
-        int maxValue = 0;
-        int[] values = new int[Card.Suit.values().length];
-        for (Card.Suit suit : Card.Suit.values()) {
-            values[suit.ordinal()] = 0;
-            for (Card card : hand) {
-                if (card.getSuit() == suit) {
-                    // add the value of the card to the value of the suit
-                    switch (card.getRank()) {
-                        case ACE:
-                            values[suit.ordinal()] += 11;
-                            break;
-                        case TWO:
-                            values[suit.ordinal()] += 2;
-                            break;
-                        case THREE:
-                            values[suit.ordinal()] += 3;
-                            break;
-                        case FOUR:
-                            values[suit.ordinal()] += 4;
-                            break;
-                        case FIVE:
-                            values[suit.ordinal()] += 5;
-                            break;
-                        case SIX:
-                            values[suit.ordinal()] += 6;
-                            break;
-                        case SEVEN:
-                            values[suit.ordinal()] += 7;
-                            break;
-                        case EIGHT:
-                            values[suit.ordinal()] += 8;
-                            break;
-                        case NINE:
-                            values[suit.ordinal()] += 9;
-                            break;
-                        case TEN:
-                        case JACK:
-                        case QUEEN:
-                        case KING:
-                            values[suit.ordinal()] += 10;
-                            break;
-                    }
-
-                }
-            }
-        }
-        maxValue = values[0];
-        for (int value : values) {
-            if (value > maxValue) {
-                maxValue = value;
-            }
-        }
-        return maxValue;
+        int sum = 0;
+        for (Card card : hand) sum += Math.min(10, card.getRank().ordinal() + 1);
+        return sum;
     }
-
-    // Override toString method
-    public String toString() {
-        String handString = "";
-        for (Card card : hand) {
-            handString += card.toString() + "\n";
-        }
-        return handString;
-    }
-
+    public String toString() { return hand.toString(); }
 }
